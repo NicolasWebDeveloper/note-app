@@ -1,26 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Take a Note</h1>
+  <addNote @add-note="addNote"></addNote>
+  <note-item v-for="note in notes" :title="note.title" :note="note.note" :key="note.title" @delete-note="deleteNote"></note-item>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import addNote from './components/AddNote.vue';
+import noteItem from './components/NoteItem.vue';
 export default {
-  name: 'App',
+  data() {
+    return {
+      notes: [{ title: 'Test', note: 'hello' }],
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    addNote,
+    noteItem,
+  },
+  methods: {
+    addNote(title, note) {
+      this.notes.push({ title, note });
+    },
+    deleteNote(title) {
+      console.log(title);
+      this.notes = this.notes.filter(note => note.title !== title);
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 </style>
